@@ -14,5 +14,12 @@ namespace HutEntry.Data
         public UserDbContext(DbContextOptions<UserDbContext> options) : base(options)
         {
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+            var connectionString = "Server=tcp:jobhuntdatabase.database.windows.net,1433;Initial Catalog=huntentrydb;Persist Security Info=False;User ID=jobhuntadmin;Password=mfwsp3PE@C;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            optionsBuilder.UseSqlServer(connectionString);
+        }
     }
 }

@@ -8,9 +8,9 @@ using Microsoft.Extensions.Hosting;
 
 using Microsoft.Extensions.Hosting;
 
-var host = new HostBuilder()
+var builder = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults()
     .Build();
 
-host.Run();
+builder.Run();
 

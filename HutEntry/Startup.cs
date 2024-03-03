@@ -24,15 +24,12 @@ namespace HutEntry
             // Configuração do DbContext
             builder.Services.AddDbContext<UserDbContext>(opts =>
             {
-                var connectionString = Environment.GetEnvironmentVariable("MySqlConnectionString");
-                opts.UseSqlServer(connectionString); // Certifique-se de que esteja usando o pacote correto para o seu banco de dados
+                var connectionString = Environment.GetEnvironmentVariable("SqlConnectionString");
+                opts.UseSqlServer(connectionString);
             });
 
-            // Configuração do Identity
-            builder.Services.AddIdentityCore<User>(options => { /* Configurações do Identity */ })
+            builder.Services.AddIdentityCore<User>()
                 .AddEntityFrameworkStores<UserDbContext>();
-
-            // Adicione outras configurações de serviço conforme necessário
         }
     }
 }
