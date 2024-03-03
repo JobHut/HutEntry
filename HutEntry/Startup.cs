@@ -21,7 +21,6 @@ namespace HutEntry
             builder.Services.ConfigureFunctionsApplicationInsights();
             builder.Services.AddAutoMapper(typeof(UserProfile).Assembly);
 
-            // Configuração do DbContext
             builder.Services.AddDbContext<UserDbContext>(opts =>
             {
                 var connectionString = Environment.GetEnvironmentVariable("SqlConnectionString");
