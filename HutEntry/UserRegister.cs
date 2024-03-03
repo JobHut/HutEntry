@@ -4,16 +4,20 @@ using System.Text.Json;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using HutEntry.Data;
+using HutEntry.Models;
 
 namespace HutEntry
 {
     public class UserRegister
     {
         private readonly ILogger _logger;
+        private readonly UserDbContext _userDbContext;
 
-        public UserRegister(ILoggerFactory loggerFactory)
+        public UserRegister(ILoggerFactory loggerFactory, UserDbContext userDbContext)
         {
             _logger = loggerFactory.CreateLogger<UserRegister>();
+            _userDbContext = userDbContext;
         }
 
         [Function("UserRegister")]
@@ -46,6 +50,13 @@ namespace HutEntry
                     badRequestResponse.WriteString("Invalid user data provided.");
                     return badRequestResponse;
                 }
+
+                _userDbContext.Users.Add(new User
+                {
+                    UserName = createUserDto.Username,
+                    PasswordHash = createUserDto.Password
+                });
+                await _userDbContext.SaveChangesAsync();
             }
             catch (JsonException)
             {
