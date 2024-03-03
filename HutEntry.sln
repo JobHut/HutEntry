@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HutEntry", "HutEntry\HutEntry.csproj", "{24731D8E-8575-456D-A2CE-655D29C53EF9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{24731D8E-8575-456D-A2CE-655D29C53EF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24731D8E-8575-456D-A2CE-655D29C53EF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24731D8E-8575-456D-A2CE-655D29C53EF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24731D8E-8575-456D-A2CE-655D29C53EF9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C85239D9-A58B-4763-8B5B-233C64F3F2D2}
+	EndGlobalSection
+EndGlobal

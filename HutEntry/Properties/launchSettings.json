@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "HutEntry": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7183"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "httpPort": 30992,
+      "useSSL": false
+    }
+  }
+}
