@@ -6,36 +6,43 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using HutEntry.Data;
 using HutEntry.Models;
+using Microsoft.AspNetCore.Identity;
+using AutoMapper;
 
 namespace HutEntry
 {
     public class UserRegister
     {
         private readonly ILogger _logger;
-        private readonly UserDbContext _userDbContext;
+        private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
         private readonly JsonSerializerOptions json;
 
-        public UserRegister(ILoggerFactory loggerFactory, UserDbContext userDbContext)
+        public UserRegister(
+            ILoggerFactory loggerFactory,
+            UserManager<User> userManager,
+            IMapper mapper)
         {
             _logger = loggerFactory.CreateLogger<UserRegister>();
-            _userDbContext = userDbContext;
+            _userManager = userManager;
             json = new()
             {
                 PropertyNameCaseInsensitive = true
             };
+            _mapper = mapper;
         }
 
         [Function("user-register")]
         public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
         {
-            _logger.LogInformation("C# HTTP trigger function processed a request."); 
-            
+            _logger.LogInformation("C# HTTP trigger function processed a request.");
+
             CreateUserDto createUserDto;
             try
             {
-                string requestBody =  await new StreamReader(req.Body).ReadToEndAsync();
+                string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                 createUserDto = JsonSerializer.Deserialize<CreateUserDto>(
-                    requestBody, json ) ?? throw new InvalidOperationException();
+                    requestBody, json) ?? throw new InvalidOperationException();
 
                 if (createUserDto == null)
                 {
@@ -51,12 +58,21 @@ namespace HutEntry
                     return badRequestResponse;
                 }
 
-                _userDbContext.Users.Add(new User
+                var user = _mapper.Map<User>(createUserDto);
+
+                var result = await _userManager.CreateAsync(user, createUserDto.Password);
+
+                if (!result.Succeeded)
                 {
-                    UserName = createUserDto.Username,
-                    PasswordHash = createUserDto.Password
-                });
-                await _userDbContext.SaveChangesAsync();
+                    throw new Exception($"Error to register user!, {result.Errors.ToList()}");
+                }
+
+                var response = req.CreateResponse(HttpStatusCode.OK);
+                response.Headers.Add("Content-Type", "application/json");
+
+                response.WriteString($"User {user.UserName} registered successfully!");
+
+                return response;
             }
             catch (JsonException)
             {
@@ -64,14 +80,6 @@ namespace HutEntry
                 badRequestResponse.WriteString("Error parsing request body.");
                 return badRequestResponse;
             }
-
-            var response = req.CreateResponse(HttpStatusCode.OK);
-            response.Headers.Add("Content-Type", "application/json");
-
-            // Supondo que você faça algum processamento aqui e retorne o resultado...
-            response.WriteString($"User {createUserDto.Username} registered successfully!");
-
-            return response;
         }
     }
 }

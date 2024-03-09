@@ -22,6 +22,7 @@ var builder = new HostBuilder()
         });
         services.AddIdentityCore<User>()
                 .AddEntityFrameworkStores<UserDbContext>();
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
     }).Build();
 
 builder.Run();
