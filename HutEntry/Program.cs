@@ -1,7 +1,5 @@
 using HutEntry.Data;
 using HutEntry.Models;
-using HutEntry.Profiles;
-using Microsoft.Azure.Functions.Worker;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
