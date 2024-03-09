@@ -13,23 +13,23 @@ namespace HutEntry
     {
         private readonly ILogger _logger;
         private readonly UserDbContext _userDbContext;
+        private readonly JsonSerializerOptions json;
 
         public UserRegister(ILoggerFactory loggerFactory, UserDbContext userDbContext)
         {
             _logger = loggerFactory.CreateLogger<UserRegister>();
             _userDbContext = userDbContext;
-        }
-
-        [Function("user-register")]
-        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequestData req)
-        {
-            _logger.LogInformation("C# HTTP trigger function processed a request.");
-
-            JsonSerializerOptions json = new()
+            json = new()
             {
                 PropertyNameCaseInsensitive = true
             };
+        }
 
+        [Function("user-register")]
+        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
+        {
+            _logger.LogInformation("C# HTTP trigger function processed a request."); 
+            
             CreateUserDto createUserDto;
             try
             {
