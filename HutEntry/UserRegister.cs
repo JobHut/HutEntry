@@ -64,6 +64,7 @@ namespace HutEntry
 
                 if (!result.Succeeded)
                 {
+                    //todo: crate custom exception
                     throw new Exception($"Error to register user!, {result.Errors.ToList()}");
                 }
 
